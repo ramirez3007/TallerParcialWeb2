@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To-Do List</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #383535; /* Cambia el color de fondo aquí */
+            color: #fff; /* Cambia el color del texto si es necesario */
+        }
+        .card {
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            background-color: #fff; /* Añade un fondo blanco a las tarjetas si lo prefieres */
+            color: #000; /* Color de texto dentro de las tarjetas */
+        }
+        .card-title {
+            font-weight: bold;
+        }
+        .table th, .table td {
+            vertical-align: middle;
+        }
+        .btn-primary {
+            background-color: #007bff;
+            border-color: #007bff;
+        }
+        .btn-primary:hover {
+            background-color: #0056b3;
+            border-color: #004085;
+        }
+        .btn-warning {
+            background-color: #ffc107;
+            border-color: #ffc107;
+        }
+        .btn-warning:hover {
+            background-color: #e0a800;
+            border-color: #d39e00;
+        }
+        .btn-danger {
+            background-color: #dc3545;
+            border-color: #dc3545;
+        }
+        .btn-danger:hover {
+            background-color: #c82333;
+            border-color: #bd2130;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container py-4">
+
+        <div class="card mb-4">
+            <div class="card-body">
+                <h5 class="card-title mb-4">Nueva tarea</h5>
+                
+                <form action="todospanel" method="POST">
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label for="title" class="form-label visually-hidden">Titulo:</label>
+                            <input type="text" id="title" name="title" class="form-control" placeholder="Titulo" required>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-check mt-2">
+                                <input type="checkbox" id="completed" name="completed" class="form-check-input">
+                                <label for="completed" class="form-check-label">Completado</label>
+                            </div>
+                        </div>
+                        <div class="col-md-3 d-flex align-items-end">
+                            <button type="submit" class="btn btn-primary btn-sm">Agregar</button>
+                        </div>
+                    </div>
+                </form>
+                
+            </div>
+        </div>
+        
+        <div class="card">
+            <div class="card-body">
+                <div class="d-flex justify-content-center">
+                    <h2 class="my-4">Lista de tareas</h2>
+                </div>
+                
+                <!-- Tabla para mostrar las tareas -->
+                <table class="table table-striped">
+                    <thead class="table-dark">
+                        <tr>
+                            <th scope="col">Titulo</th>
+                            <th scope="col">Completado</th>
+                            <th scope="col">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% todos.forEach(function(todo){ %>
+                            <tr>
+                                <td><%= todo.title %></td>
+                                <td><%= todo.completed ? "Completado" : "No completado" %></td>
+                                <td>
+                                    <a href="/api/v1/todospanel/editar/<%= todo.id %>" class="btn btn-sm btn-warning">Editar</a>
+                                    <form action="/api/v1/todospanel/<%= todo.id %>/delete" method="POST" style="display:inline;">
+                                        <button type="submit" class="btn btn-sm btn-danger">Eliminar</button>
+                                    </form>
+                                </td>
+                            </tr>
+                        <% }); %>    
+                    </tbody>
+                </table>
+                
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS bundle (opcional, para algunos componentes de Bootstrap) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>
